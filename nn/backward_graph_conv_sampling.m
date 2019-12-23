@@ -7,7 +7,10 @@ function [dLdW, dLdX] = backward_graph_conv_sampling(A, X, W, p, dLdZ)
 
 p = p(:);
 n = length(p);
-A_dLdZ_p = ((A' * dLdZ) ./ p) / n;
+% A_dLdZ_p = ((A' * dLdZ) ./ p) / n;
+
+A_dLdZ_p = ( A * diag(1./p))' * dLdZ / n;
+
 dLdW = X' * A_dLdZ_p;
 
 if nargout == 1
